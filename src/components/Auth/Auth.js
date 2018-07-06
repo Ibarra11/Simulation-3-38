@@ -3,7 +3,6 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import {updateUserInfo} from '../../ducks/reducer';
 class Auth extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -20,6 +19,8 @@ class Auth extends Component {
             password: this.state.password
         })
             .then((user) => {
+                let {id, username, profile_pic} = user.data;
+                this.props.updateUserInfo(id, username, profile_pic)
                 this.props.history.push('/dashboard');
             })
             .catch(err => console.log(err))
@@ -39,7 +40,6 @@ class Auth extends Component {
             
     }
     render() {
-        console.log(this.props)
         return (
             <div>
                 <input onChange={this.handleOnChange} name='username' type="text" />

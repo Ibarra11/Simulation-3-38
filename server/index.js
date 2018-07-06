@@ -18,9 +18,15 @@ massive(process.env.CONNECTION_STRING)
     .catch(err => console.log(err))
 
 
-app.post('/api/auth/register', ctrl.createUser)
+app.post('/api/auth/register', ctrl.createUser);
 
 app.post('/api/auth/login', ctrl.checkLogin);
+
+app.post('/api/post/:userid', ctrl.createPost);
+
+app.get('/api/posts/:userid', ctrl.getAllPosts);
+
+app.get('/api/post/:postid', ctrl.getPost);
 
 
 

@@ -11,19 +11,19 @@ class Nav extends Component {
 
     displayUsernameProfilePic(){
         return(
-            <div>
+            <div className="nav">
                 <h1>Username: {this.props.username}</h1>
-                <img src={this.props.profile_pic} alt=""/>
+                <img src={this.props.profile_pic} height={100} width={100} alt=""/>
             </div>
         )
     }
     render() {
         return (
             <div>
-                {(this.props.location != '/') ? this.displayUsernameProfilePic() : null}
                 <Link to='/dashboard'><button>Home</button></Link>
                 <Link to='/new/post'><button>New Post</button></Link>
                 <Link to='/'><button>Logout</button></Link>
+                {(this.props.location != '/') ? this.displayUsernameProfilePic() : null}
             </div>
         )
     }
