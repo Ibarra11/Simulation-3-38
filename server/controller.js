@@ -5,7 +5,8 @@ module.exports = {
         req.app.get('db').create_user([username, password, 'https://robohash.org/alan'])
             .then(user => {
                 let { id, username, profile_pic } = user[0];
-                res.send({ id: id, username: username, profile_pic: profile_pic })
+                req.session.userid = id;
+                res.send({  username: username, profile_pic: profile_pic })
             })
             .catch(err => res.status(500).send(err))
     },
@@ -14,15 +15,16 @@ module.exports = {
         req.app.get('db').find_user([username, password])
             .then(user => {
                 let { id, username, profile_pic } = user[0];
-                res.send({ id: id, username: username, profile_pic: profile_pic })
+                req.session.userid = id;
+                console.log(req.session)
+                res.send({ username: username, profile_pic: profile_pic })
             })
             .catch(err =>{
-                console.log(err)
                 res.status(500).send(err)
             } )
     },
     getAllPosts: (req,res) =>{
-        let {userid} = req.params;
+        let {userid} = req.session; 
         let {search, userposts} = req.query;
 
         let db = req.app.get('db');
@@ -34,7 +36,6 @@ module.exports = {
 
         else if(userposts != 'true' && !search){
             // find post where the current user is not the author
-
             db.find_all_other_posts([userid])
             .then(posts => res.send(posts))
             .catch(err => res.status(500).send(err))
@@ -60,9 +61,20 @@ module.exports = {
     },
     createPost: (req,res) =>{
         let {postTitle, img, content} = req.body;
-        let {userid} = req.params;
+        let {userid} = req.session;
         req.app.get('db').create_post([postTitle, img, content, userid ])
         .then(() => res.sendStatus(200))
+        .catch(err => res.status(500).send(err))
+    },
+    logout: (req, res) =>{
+        console.log('destroying session')
+        req.session.destroy();
+        res.redirect('http://localhost:3000');
+    },
+    authUser: (req, res) =>{
+        let {userid} = req.session;
+        req.app.get('db').find_user_by_id([userid])
+        .then(user => res.send(user))
         .catch(err => res.status(500).send(err))
     }
 }

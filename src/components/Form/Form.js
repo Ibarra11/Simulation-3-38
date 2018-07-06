@@ -15,7 +15,7 @@ class Form extends Component{
     onChangeInput = event => this.setState({[event.target.name]: event.target.value})
 
     submitPost = () =>{
-        axios.post(`/api/post/${this.props.userid}`, {
+        axios.post(`/api/post/`, {
             postTitle: this.state.title,
             img: this.state.img,
             content: this.state.content

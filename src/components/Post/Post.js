@@ -27,9 +27,9 @@ class Post extends Component{
     }
 
     render(){
-        console.log(this.state);
         return(
             <div className="component-post">
+            <button onClick={() => this.props.history.push('/dashboard')}>Go Back</button>
                 <div className="image-caption">
                     <h2>{this.state.title}</h2>
                     <img src={this.state.img} alt=""/>

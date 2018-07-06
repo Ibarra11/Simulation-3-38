@@ -19,8 +19,8 @@ class Auth extends Component {
             password: this.state.password
         })
             .then((user) => {
-                let {id, username, profile_pic} = user.data;
-                this.props.updateUserInfo(id, username, profile_pic)
+                let { username, profile_pic} = user.data;
+                this.props.updateUserInfo( username, profile_pic)
                 this.props.history.push('/dashboard');
             })
             .catch(err => console.log(err))
@@ -32,8 +32,8 @@ class Auth extends Component {
             password: this.state.password
         })
             .then(user => {
-                let {id, username, profile_pic} = user.data;
-                this.props.updateUserInfo(id, username, profile_pic)
+                let {username, profile_pic} = user.data;
+                this.props.updateUserInfo( username, profile_pic)
                 this.props.history.push('/dashboard')
             })
             .catch(err => console.log(err))
