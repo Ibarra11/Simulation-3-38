@@ -18,6 +18,11 @@ massive(process.env.CONNECTION_STRING)
     .catch(err => console.log(err))
 
 
+app.post('/api/auth/register', ctrl.createUser)
+
+app.post('/api/auth/login', ctrl.checkLogin);
+
+
 
 
 app.listen(PORT, () => console.log('Listening'))
