@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import {updateUserInfo} from '../../ducks/reducer';
 class Auth extends Component {
 
     constructor(props) {
@@ -23,18 +25,21 @@ class Auth extends Component {
             .catch(err => console.log(err))
     }
 
-    checkLogin = () =>{
+    checkLogin = () => {
         axios.post('/api/auth/login', {
             username: this.state.username,
             password: this.state.password
         })
-        .then(user =>{
-           console.log(user);
-            this.props.history.push('/dashboard');
-        })
-        .catch(err => console.log(err))
+            .then(user => {
+                let {id, username, profile_pic} = user.data;
+                this.props.updateUserInfo(id, username, profile_pic)
+                this.props.history.push('/dashboard')
+            })
+            .catch(err => console.log(err))
+            
     }
     render() {
+        console.log(this.props)
         return (
             <div>
                 <input onChange={this.handleOnChange} name='username' type="text" />
@@ -49,4 +54,4 @@ class Auth extends Component {
 }
 
 
-export default Auth;
+export default connect(null, {updateUserInfo})(Auth);
